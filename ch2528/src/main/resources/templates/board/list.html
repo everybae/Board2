@@ -47,14 +47,14 @@
 			<td align="center" th:text="${notice.noticeNo}">${notice.noticeNo}</td>
 			<td align="left"><a href="read.html" th:href="|/notice/read?noticeNo=${notice.noticeNo}|" th:text="${notice.title}">${notice.title}</a></td>
 			<td align="center" th:text="#{notice.writer}">공지 작성자</td>
-			<td align="center" th:text="${#temporals.format(notice.regDate, 'yyyy-MM-dd HH:mm')}"></td>
+			<td align="center" th:text="${#temporals.format(notice.regDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
 		</tr>
 		
 		<tr th:each="board : ${boardList}">
 			<td align="center" th:text="${board.boardNo}">${board.boardNo}</td>
 			<td align="left"><a href="read.html" th:href="@{|/board/read${pgrq.toUriString()}&boardNo=${board.boardNo}|}" th:text="${board.title}">${board.title}</a></td>
 			<td align="right" th:text="${board.writer}">${board.writer}</td>
-			<td align="center" th:text="${#temporals.format(board.regDate, 'yyyy-MM-dd HH:mm')}"></td>
+			<td align="center" th:text="${#temporals.format(board.regDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
 		</tr>
 	</table>
 	
