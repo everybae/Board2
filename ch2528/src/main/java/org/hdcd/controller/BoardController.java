@@ -92,8 +92,7 @@ public class BoardController {
 		model.addAttribute(service.read(boardNo));
 		System.out.println(service.read(boardNo));
 		System.out.println(boardNo);
-		model.addAttribute(replyService.read(boardNo));
-		System.out.println(replyService.read(boardNo));
+//		model.addAttribute(replyService.read(boardNo));
 	}
 
 	@PostMapping("/remove")
@@ -134,6 +133,5 @@ public class BoardController {
 		rttr.addFlashAttribute("msg", "SUCCESS");
 
 		return "redirect:/board/list";
-	}	
-	
+	}
 }

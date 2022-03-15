@@ -1,7 +1,5 @@
 package org.hdcd.domain;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,13 +10,19 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @ToString
@@ -34,15 +38,18 @@ public class Reply
 	private String writer;
 	
 	@NotBlank
-	@Column(length = 200, nullable = false)
+	@Column(length = 500, nullable = false)
 	private String content;
 	
-	@CreationTimestamp
-	private LocalDateTime regDate;
-	@UpdateTimestamp
-	private LocalDateTime updDate;
+	@Column(name = "created_date")
+	@CreatedDate
+	private String regDate;
+	
+	@Column(name = "modified_date")
+	@LastModifiedDate
+	private String updDate;
 	
 	@ManyToOne
-	@JoinColumn(name = "boardNo")
-	private Board boardNo;
+	@JoinColumn(name = "boardId")
+	private Board board;
 }

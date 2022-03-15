@@ -34,25 +34,18 @@
 				<td><textarea name="content" th:field="*{content}" readonly="readonly"></textarea></td>
 			</tr>
 			
-			<tr>
-				<td th:text = "댓글확인용"></td>
-				<td><input type = "text" name = "reply" th:field = "*{boardNo}" readonly="readonly" /></td>
+			<tr th:each="reply : ${replyList}">
+				<td th:text = "boardNo숫자확인용"></td>
+				<td><input type = "text" name = "reply" th:text = "${reply.content}" readonly="readonly" /></td>
 			</tr>
 		</table>
 	</form>
 	
 	<form id="reply" th:object="${board}" method="POST">
-		<input type="hidden" name="boardNo" th:field="*{boardNo}" />
-		<input type="hidden" name="page" th:value="${pgrq.page}" />
-		<input type="hidden" name="sizePerPage" th:value="${pgrq.sizePerPage}" />
-		
-		<input type="hidden" name="searchType" th:value="${pgrq.searchType}" />
-		<input type="hidden" name="keyword" th:value="${pgrq.keyword}" />
-	
 		<table>
 			<tr>
-				<td>댓글확인용1</td>
-				<td><input type="text" name="reply" th:field="*{boardNo}" readonly="readonly" /></td>
+				<td>데이터 확인용</td>
+				<td><input type="text" name="reply" th:field="*{regDate}" readonly="readonly" /></td>
 			</tr>
 		</table>
 	</form>

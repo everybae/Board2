@@ -18,6 +18,8 @@ import javax.validation.constraints.NotBlank;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -50,6 +52,7 @@ public class Board {
 	@UpdateTimestamp
 	private LocalDateTime updDate;
 
-	@OneToMany(mappedBy = "boardNo", fetch = FetchType.EAGER, cascade =  CascadeType.REMOVE)
-	private List<Reply> reply;
+	@JsonIgnoreProperties({"board"})
+	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade =  CascadeType.REMOVE)
+	private List<Reply> replyList;
 }

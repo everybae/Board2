@@ -26,7 +26,7 @@ public class QBoard extends EntityPathBase<Board> {
 
     public final DateTimePath<java.time.LocalDateTime> regDate = createDateTime("regDate", java.time.LocalDateTime.class);
 
-    public final ListPath<Reply, QReply> reply = this.<Reply, QReply>createList("reply", Reply.class, QReply.class, PathInits.DIRECT2);
+    public final ListPath<Reply, QReply> replyList = this.<Reply, QReply>createList("replyList", Reply.class, QReply.class, PathInits.DIRECT2);
 
     public final StringPath title = createString("title");
 

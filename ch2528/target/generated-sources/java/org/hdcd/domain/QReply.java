@@ -22,15 +22,15 @@ public class QReply extends EntityPathBase<Reply> {
 
     public static final QReply reply = new QReply("reply");
 
-    public final QBoard boardNo;
+    public final QBoard board;
 
     public final StringPath content = createString("content");
 
-    public final DateTimePath<java.time.LocalDateTime> regDate = createDateTime("regDate", java.time.LocalDateTime.class);
+    public final StringPath regDate = createString("regDate");
 
     public final NumberPath<Long> replyNo = createNumber("replyNo", Long.class);
 
-    public final DateTimePath<java.time.LocalDateTime> updDate = createDateTime("updDate", java.time.LocalDateTime.class);
+    public final StringPath updDate = createString("updDate");
 
     public final StringPath writer = createString("writer");
 
@@ -52,7 +52,7 @@ public class QReply extends EntityPathBase<Reply> {
 
     public QReply(Class<? extends Reply> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.boardNo = inits.isInitialized("boardNo") ? new QBoard(forProperty("boardNo")) : null;
+        this.board = inits.isInitialized("board") ? new QBoard(forProperty("board")) : null;
     }
 
 }
