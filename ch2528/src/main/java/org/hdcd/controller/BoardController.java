@@ -10,6 +10,7 @@ import org.hdcd.dto.CodeLabelValue;
 import org.hdcd.dto.PaginationDTO;
 import org.hdcd.service.BoardService;
 import org.hdcd.service.NoticeService;
+import org.hdcd.service.ReplyServiceImpl;
 import org.hdcd.vo.PageRequestVO;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,6 +34,8 @@ public class BoardController {
 
 	private final BoardService service;
 	private final NoticeService noticeService;
+	private final ReplyServiceImpl replyService;
+	
 
 	@GetMapping("/register")
 	@PreAuthorize("hasRole('MEMBER')")
@@ -84,8 +87,13 @@ public class BoardController {
 	}
 
 	@GetMapping("/read")
-	public void read(Long boardNo, @ModelAttribute("pgrq") PageRequestVO pageRequestVO, Model model) throws Exception {
+	public void read(Long boardNo, @ModelAttribute("pgrq") PageRequestVO pageRequestVO, Model model) throws Exception
+	{
 		model.addAttribute(service.read(boardNo));
+		System.out.println(service.read(boardNo));
+		System.out.println(boardNo);
+		model.addAttribute(replyService.read(boardNo));
+		System.out.println(replyService.read(boardNo));
 	}
 
 	@PostMapping("/remove")
