@@ -6,8 +6,12 @@ import java.util.List;
 import org.hdcd.common.security.domain.CustomUser;
 import org.hdcd.domain.Board;
 import org.hdcd.domain.Member;
+import org.hdcd.domain.Reply;
+import org.hdcd.dto.BoardResponseDto;
 import org.hdcd.dto.CodeLabelValue;
 import org.hdcd.dto.PaginationDTO;
+import org.hdcd.dto.ReplyDto;
+import org.hdcd.dto.ReplyResponseDto;
 import org.hdcd.service.BoardService;
 import org.hdcd.service.NoticeService;
 import org.hdcd.service.ReplyServiceImpl;
@@ -23,6 +27,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.RequiredArgsConstructor;
@@ -90,9 +95,6 @@ public class BoardController {
 	public void read(Long boardNo, @ModelAttribute("pgrq") PageRequestVO pageRequestVO, Model model) throws Exception
 	{
 		model.addAttribute(service.read(boardNo));
-		System.out.println(service.read(boardNo));
-		System.out.println(boardNo);
-//		model.addAttribute(replyService.read(boardNo));
 	}
 
 	@PostMapping("/remove")
@@ -118,8 +120,9 @@ public class BoardController {
 
 	@PostMapping("/modify")
 	@PreAuthorize("hasRole('MEMBER') and principal.username == #board.writer")
-	public String modify(@Validated Board board, BindingResult result, @ModelAttribute("pgrq") PageRequestVO pageRequestVO, RedirectAttributes rttr) throws Exception {
-		if(result.hasErrors()) {
+	public String modify(@RequestParam("boardNo") int idx, @Validated Board board, BindingResult result, @ModelAttribute("pgrq") PageRequestVO pageRequestVO, RedirectAttributes rttr) throws Exception {
+		if(result.hasErrors())
+		{
 			return "board/modify";
 		}		
 		
@@ -132,6 +135,25 @@ public class BoardController {
 	    
 		rttr.addFlashAttribute("msg", "SUCCESS");
 
-		return "redirect:/board/list";
+		return "redirect:/board/read?boardNo=" + idx;
+	}
+	
+	@PostMapping("/reply/write")
+	@PreAuthorize("hasRole('MEMBER')")
+	public String writeReply(@RequestParam("boardNo") int idx, @RequestParam("content") String content, Authentication authentication) throws Exception
+	{
+		CustomUser customUser = (CustomUser) authentication.getPrincipal();
+		Member member = customUser.getMember();
+		
+		ReplyDto replyDto = new ReplyDto();
+		
+		replyDto.setContent(content);
+		replyDto.setWriter(member.getUserId());
+		
+		Reply reply = new Reply();
+		
+		replyService.register(reply);
+		
+		return "redirect:/board/read?boardNo=" + idx;
 	}
 }

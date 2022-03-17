@@ -33,19 +33,18 @@
 				<td th:text="#{board.content}">내용</td>
 				<td><textarea name="content" th:field="*{content}" readonly="readonly"></textarea></td>
 			</tr>
-			
-			<tr th:each="reply : ${replyList}">
-				<td th:text = "boardNo숫자확인용"></td>
-				<td><input type = "text" name = "reply" th:text = "${reply.content}" readonly="readonly" /></td>
-			</tr>
 		</table>
 	</form>
 	
-	<form id="reply" th:object="${board}" method="POST">
+	<form>
 		<table>
+			<input type = "text" name = "content" th:value = "*{board.boardNo}" />
+			<div>
+				<button type = "submit" id = "btnReply">댓글 등록</button>
+			</div>
 			<tr>
 				<td>데이터 확인용</td>
-				<td><input type="text" name="reply" th:field="*{regDate}" readonly="readonly" /></td>
+				<td><input type="text" readonly="readonly" /></td>
 			</tr>
 		</table>
 	</form>
@@ -68,7 +67,7 @@
 	
 	<script>
 		$(document).ready(function() {
-	
+
 			var formObj = $("#board");
 	
 			$("#btnEdit").on("click", function() {

@@ -15,5 +15,4 @@ public interface BoardService {
 	public void remove(Long boardNo) throws Exception;
 	
 	public Page<Board> list(PageRequestVO pageRequestVO) throws Exception;
-	
 }

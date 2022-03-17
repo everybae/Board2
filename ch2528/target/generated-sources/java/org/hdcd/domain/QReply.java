@@ -22,7 +22,7 @@ public class QReply extends EntityPathBase<Reply> {
 
     public static final QReply reply = new QReply("reply");
 
-    public final QBoard board;
+    public final QBoard boardNo;
 
     public final StringPath content = createString("content");
 
@@ -52,7 +52,7 @@ public class QReply extends EntityPathBase<Reply> {
 
     public QReply(Class<? extends Reply> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.board = inits.isInitialized("board") ? new QBoard(forProperty("board")) : null;
+        this.boardNo = inits.isInitialized("boardNo") ? new QBoard(forProperty("boardNo")) : null;
     }
 
 }

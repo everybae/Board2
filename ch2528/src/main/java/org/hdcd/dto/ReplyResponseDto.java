@@ -3,36 +3,29 @@ package org.hdcd.dto;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import org.hdcd.domain.Board;
 import org.hdcd.domain.Reply;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+@RequiredArgsConstructor
+@Getter
 public class ReplyResponseDto
 {
-	private Long replyno;
+	private Long replyNo;
+	private String writer;
 	private String content;
 	private String regDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
 	private String updDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
-	private Board board;
-
-	public Reply toEntity()
+	private Long boardNo;
+	
+	public ReplyResponseDto(Reply reply)
 	{
-		Reply reply = Reply.builder()
-				.replyNo(replyno)
-				.content(content)
-				.regDate(regDate)
-				.updDate(updDate)
-				.board(board)
-				.build();
-		
-		return reply;
+		this.replyNo = reply.getReplyNo();
+		this.content = reply.getContent();
+		this.writer = reply.getWriter();
+		this.regDate = reply.getRegDate();
+		this.updDate = reply.getUpdDate();
+		this.boardNo = reply.getBoardNo().getBoardNo();
 	}
 }

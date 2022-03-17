@@ -23,7 +23,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public Board read(Long boardNo) throws Exception {
+	public Board read(Long boardNo) throws Exception
+	{
 		return repository.getOne(boardNo);
 	}
 
@@ -54,5 +55,4 @@ public class BoardServiceImpl implements BoardService {
 		
 		return repository.getSearchPage(searchType, keyword, pageRequest);
 	}
-	
 }

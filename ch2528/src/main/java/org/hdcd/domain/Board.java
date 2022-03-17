@@ -1,6 +1,7 @@
 package org.hdcd.domain;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -53,6 +54,6 @@ public class Board {
 	private LocalDateTime updDate;
 
 	@JsonIgnoreProperties({"board"})
-	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade =  CascadeType.REMOVE)
-	private List<Reply> replyList;
+	@OneToMany(mappedBy = "boardNo", fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
+	private List<Reply> replyList = new ArrayList<>();
 }

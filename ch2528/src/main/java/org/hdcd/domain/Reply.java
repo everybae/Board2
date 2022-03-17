@@ -41,15 +41,13 @@ public class Reply
 	@Column(length = 500, nullable = false)
 	private String content;
 	
-	@Column(name = "created_date")
 	@CreatedDate
 	private String regDate;
 	
-	@Column(name = "modified_date")
 	@LastModifiedDate
 	private String updDate;
 	
 	@ManyToOne
-	@JoinColumn(name = "boardId")
-	private Board board;
+	@JoinColumn(name = "boardNo")
+	private Board boardNo;
 }

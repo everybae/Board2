@@ -8,34 +8,37 @@ import org.hdcd.domain.Reply;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ReplyRequestDto
+public class ReplyDto
 {
 	private Long replyNo;
-	private String content;
 	private String writer;
+	private String content;
 	private String regDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
 	private String updDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
-
-	private Board board;
+	private Board boardNo;
 	
 	public Reply toEntity()
 	{
-		Reply reply = Reply.builder()
+		Reply replys = Reply.builder()
 				.replyNo(replyNo)
 				.content(content)
 				.writer(writer)
 				.regDate(regDate)
 				.updDate(updDate)
-				.board(board)
+				.boardNo(boardNo)
 				.build();
 		
-		return reply;
+		return replys;
 	}
 }
