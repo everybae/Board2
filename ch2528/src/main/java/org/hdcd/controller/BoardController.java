@@ -7,11 +7,10 @@ import org.hdcd.common.security.domain.CustomUser;
 import org.hdcd.domain.Board;
 import org.hdcd.domain.Member;
 import org.hdcd.domain.Reply;
-import org.hdcd.dto.BoardResponseDto;
 import org.hdcd.dto.CodeLabelValue;
+import org.hdcd.dto.MessageDTO;
 import org.hdcd.dto.PaginationDTO;
 import org.hdcd.dto.ReplyDto;
-import org.hdcd.dto.ReplyResponseDto;
 import org.hdcd.service.BoardService;
 import org.hdcd.service.NoticeService;
 import org.hdcd.service.ReplyServiceImpl;
@@ -138,22 +137,37 @@ public class BoardController {
 		return "redirect:/board/read?boardNo=" + idx;
 	}
 	
-	@PostMapping("/reply/write")
+//	@PostMapping("/reply/write")
+//	@PreAuthorize("hasRole('MEMBER')")
+//	public String writeReply(@RequestParam("boardNo") int idx, @RequestParam("content") String content, Authentication authentication) throws Exception
+//	{
+//		CustomUser customUser = (CustomUser) authentication.getPrincipal();
+//		Member member = customUser.getMember();
+//		
+//		ReplyDto replyDto = new ReplyDto();
+//		
+//		replyDto.setContent(content);
+//		replyDto.setWriter(member.getUserId());
+//		
+//		Reply reply = new Reply();
+//		
+//		replyService.register(reply);
+//		
+//		return "redirect:/board/read?boardNo=" + idx;
+//	}
+	
+	@PostMapping("/dataSend")
 	@PreAuthorize("hasRole('MEMBER')")
-	public String writeReply(@RequestParam("boardNo") int idx, @RequestParam("content") String content, Authentication authentication) throws Exception
+	public String dataSend(@RequestParam("boardNo") int idx, Model model, MessageDTO dto)
 	{
-		CustomUser customUser = (CustomUser) authentication.getPrincipal();
-		Member member = customUser.getMember();
-		
-		ReplyDto replyDto = new ReplyDto();
-		
-		replyDto.setContent(content);
-		replyDto.setWriter(member.getUserId());
-		
-		Reply reply = new Reply();
-		
-		replyService.register(reply);
-		
-		return "redirect:/board/read?boardNo=" + idx;
+		model.addAttribute("nsg", dto.getResult() + "/ this is the value sent by the server");
+		return "index :: #resultDiv";
+	}
+	
+	@GetMapping("/ajaxtest")
+	public String test(Model model, MessageDTO dto)
+	{
+		model.addAttribute("message", dto.getResult() + "화면 테스트입니다");
+		return "board/ajaxtest";
 	}
 }

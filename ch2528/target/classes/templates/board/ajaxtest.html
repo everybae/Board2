@@ -1,0 +1,35 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Insert title here</title>
+</head>
+<script src="/js/jQuery-2.1.4.min.js">
+</script>
+<body>
+	<h1>ajax 테스트</h1>
+			<div class = "input-group mb-3">
+				<input id = "input" placeholder = "Please enter text" type = "text" class = "form-control">
+				<button class = "btn btn-outline-secondary" type = "submit" onclick = "dataSend()">submit</button>
+			</div>
+			<div id = "resultDiv">
+				<p th:if = "${message} != null" th:text = "${message}"></p>
+			</div>
+<script>
+	function dataSend() {
+		var data=$("#input").val();
+	    var messageDTO={
+	        result:data
+	    };
+	    $.ajax({
+	        url: "/board/ajaxtest",
+	        data: messageDTO,
+	        type:"POST",
+	    }).done(function (fragment) {
+	    	console.log(data)
+	        $("#resultDiv").replaceWith(fragment);
+	    });
+	}
+</script>
+</body>
+</html>

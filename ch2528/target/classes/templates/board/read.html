@@ -14,6 +14,7 @@
 	
 	<form id="board" action="list.html" th:action="@{/board/remove}" th:object="${board}" method="POST">
 		<input type="hidden" name="boardNo" th:field="*{boardNo}" />
+		<input type="hidden" name="writer" th:field="*{writer}" />
 		<input type="hidden" name="page" th:value="${pgrq.page}" />
 		<input type="hidden" name="sizePerPage" th:value="${pgrq.sizePerPage}" />
 		
@@ -38,14 +39,14 @@
 	
 	<form>
 		<table>
-			<input type = "text" name = "content" th:value = "*{board.boardNo}" />
-			<div>
-				<button type = "submit" id = "btnReply">댓글 등록</button>
+			<h1>ajax 테스트</h1>
+			<div class = "input-group mb-3">
+				<input id = "input" placeholder = "Please enter text" type = "text" class = "form-control">
+				<button class = "btn btn-outline-secondary" type = "button" onclick = "dataSend()">submit</button>
 			</div>
-			<tr>
-				<td>데이터 확인용</td>
-				<td><input type="text" readonly="readonly" /></td>
-			</tr>
+			<div id = "resultDiv">
+				<p th:if = "${nsg} != null" th:text = "${nsg}"></p>
+			</div>
 		</table>
 	</form>
 	
@@ -66,6 +67,20 @@
 	</div>
 	
 	<script>
+		function dataSend() {
+			var data=$("#input").val();
+		    var messageDTO={
+		        result:data
+		    };
+		    $.ajax({
+		        url: "/board/dataSend",
+		        data: messageDTO,
+		        type:"POST",
+		    }).done(function (fragment) {
+		        $("#resultDiv").replaceWith(fragment);
+		    });
+			
+		}
 		$(document).ready(function() {
 
 			var formObj = $("#board");
@@ -85,7 +100,6 @@
 			$("#btnList").on("click", function() {
 				self.location = "/board/list[(${pgrq.toUriString()})]";
 			});
-	
 		});
 	</script>
 </div>
