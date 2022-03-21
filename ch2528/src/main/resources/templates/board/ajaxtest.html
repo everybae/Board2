@@ -2,34 +2,46 @@
 
 <head>
 	<meta charset="UTF-8" />
+	<meta name="_csrf" th:content="${_csrf.token}">
+	<meta name="_csrf_header" th:content="${_csrf.headerName}">
 	<title>Insert title here</title>
 </head>
-<script src="/js/jQuery-2.1.4.min.js">
-</script>
+<!-- <script src="/js/jQuery-2.1.4.min.js"></script>-->
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
 <body>
 	<h1>ajax 테스트</h1>
 			<div class = "input-group mb-3">
 				<input id = "input" placeholder = "Please enter text" type = "text" class = "form-control">
-				<button class = "btn btn-outline-secondary" type = "submit" onclick = "dataSend()">submit</button>
+				<button class = "btn btn-outline-secondary" id = "register" type = "button">submit</button>
 			</div>
 			<div id = "resultDiv">
 				<p th:if = "${message} != null" th:text = "${message}"></p>
 			</div>
 <script>
-	function dataSend() {
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+	$(document).ajaxSend(function(e, xhr, options){
+		xhr.setRequestHeader(header, token);
+	});
+
+	$("#register").on("click", function(event) {
 		var data=$("#input").val();
+		console.log(data);
 	    var messageDTO={
 	        result:data
 	    };
+	    console.log(messageDTO);
 	    $.ajax({
-	        url: "/board/ajaxtest",
-	        data: messageDTO,
-	        type:"POST",
-	    }).done(function (fragment) {
-	    	console.log(data)
-	        $("#resultDiv").replaceWith(fragment);
-	    });
-	}
+	        url: "/board/dataSend",
+	    	type:"POST",
+	    	data: messageDTO,
+	        success : function(result){
+	        		$("#resultDiv").text(data);
+	        		console.log(data);
+	        }
+	});
+});
 </script>
 </body>
 </html>

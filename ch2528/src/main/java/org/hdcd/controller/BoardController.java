@@ -6,16 +6,15 @@ import java.util.List;
 import org.hdcd.common.security.domain.CustomUser;
 import org.hdcd.domain.Board;
 import org.hdcd.domain.Member;
-import org.hdcd.domain.Reply;
 import org.hdcd.dto.CodeLabelValue;
 import org.hdcd.dto.MessageDTO;
 import org.hdcd.dto.PaginationDTO;
-import org.hdcd.dto.ReplyDto;
 import org.hdcd.service.BoardService;
 import org.hdcd.service.NoticeService;
-import org.hdcd.service.ReplyServiceImpl;
 import org.hdcd.vo.PageRequestVO;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -27,6 +26,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.RequiredArgsConstructor;
@@ -38,7 +38,7 @@ public class BoardController {
 
 	private final BoardService service;
 	private final NoticeService noticeService;
-	private final ReplyServiceImpl replyService;
+//	private final ReplyServiceImpl replyService;
 	
 
 	@GetMapping("/register")
@@ -156,18 +156,18 @@ public class BoardController {
 //		return "redirect:/board/read?boardNo=" + idx;
 //	}
 	
-	@PostMapping("/dataSend")
-	@PreAuthorize("hasRole('MEMBER')")
-	public String dataSend(@RequestParam("boardNo") int idx, Model model, MessageDTO dto)
+	@ResponseBody
+	@PostMapping(path = "/dataSend", produces = "text/plain;charset=UTF-8")
+	public ResponseEntity<String> dataSend()
 	{
-		model.addAttribute("nsg", dto.getResult() + "/ this is the value sent by the server");
-		return "index :: #resultDiv";
+		String test = "댓글을 입력해주세요";
+		return new ResponseEntity<String>(test, HttpStatus.OK);
 	}
 	
 	@GetMapping("/ajaxtest")
 	public String test(Model model, MessageDTO dto)
 	{
-		model.addAttribute("message", dto.getResult() + "화면 테스트입니다");
+		model.addAttribute("댓글을 입력해주세요");
 		return "board/ajaxtest";
 	}
 }

@@ -6,8 +6,11 @@
 <head>
 	<title>Board</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="_csrf" th:content="${_csrf.token}">
+	<meta name="_csrf_header" th:content="${_csrf.headerName}">
 	<link rel="stylesheet" href="../../static/css/style.css" th:href="@{/css/style.css}"/>
 </head>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <body>
 <div layout:fragment="content">
 	<h2 th:text="#{board.header.read}">회원게시판 상세보기</h2>
@@ -40,13 +43,40 @@
 	<form>
 		<table>
 			<h1>ajax 테스트</h1>
-			<div class = "input-group mb-3">
+			<div>
 				<input id = "input" placeholder = "Please enter text" type = "text" class = "form-control">
-				<button class = "btn btn-outline-secondary" type = "button" onclick = "dataSend()">submit</button>
+				<button id = "register" type = "button">submit</button>
 			</div>
 			<div id = "resultDiv">
-				<p th:if = "${nsg} != null" th:text = "${nsg}"></p>
+				<p th:if = "${message} != null" th:text = "${message}"></p>
 			</div>
+			<script>
+				var token = $("meta[name='_csrf']").attr("content");
+				var header = $("meta[name='_csrf_header']").attr("content");
+				$(document).ajaxSend(function(e, xhr, options){
+					xhr.setRequestHeader(header, token);
+				});
+			
+				$("#register").on("click", function(event) {
+					var data=$("#input").val();
+					
+					console.log(data);
+				    var messageDTO={
+				        result:data
+				    };
+				    console.log(messageDTO);
+				    $.ajax({
+				        url: "/board/dataSend",
+				    	type:"POST",
+				    	data: messageDTO,
+				        success : function(result){
+				        		$("#resultDiv").text(data);
+				        		$("#input").val("");
+				        		console.log(data);
+				        }
+				});
+			});
+			</script>
 		</table>
 	</form>
 	
@@ -67,24 +97,10 @@
 	</div>
 	
 	<script>
-		function dataSend() {
-			var data=$("#input").val();
-		    var messageDTO={
-		        result:data
-		    };
-		    $.ajax({
-		        url: "/board/dataSend",
-		        data: messageDTO,
-		        type:"POST",
-		    }).done(function (fragment) {
-		        $("#resultDiv").replaceWith(fragment);
-		    });
-			
-		}
 		$(document).ready(function() {
 
 			var formObj = $("#board");
-	
+			
 			$("#btnEdit").on("click", function() {
 				var boardNo = $("#boardNo");
 				var boardNoVal = boardNo.val();

@@ -53,7 +53,7 @@ public class Board {
 	@UpdateTimestamp
 	private LocalDateTime updDate;
 
-	@JsonIgnoreProperties({"board"})
-	@OneToMany(mappedBy = "boardNo", fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
-	private List<Reply> replyList = new ArrayList<>();
+//	@JsonIgnoreProperties({"board"})
+//	@OneToMany(mappedBy = "boardNo", fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
+//	private List<Reply> replyList = new ArrayList<>();
 }
