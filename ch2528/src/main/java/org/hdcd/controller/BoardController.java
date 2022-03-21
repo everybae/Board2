@@ -158,9 +158,18 @@ public class BoardController {
 	
 	@ResponseBody
 	@PostMapping(path = "/dataSend", produces = "text/plain;charset=UTF-8")
-	public ResponseEntity<String> dataSend()
+	public ResponseEntity<String> dataSend(Model model, Authentication authentication)
 	{
+		CustomUser customUser = (CustomUser) authentication.getPrincipal();
+		Member member = customUser.getMember();
+		
 		String test = "댓글을 입력해주세요";
+		String replyWriter = member.getUserId();
+		
+		System.out.println(replyWriter);
+		
+		model.addAttribute(replyWriter);
+		
 		return new ResponseEntity<String>(test, HttpStatus.OK);
 	}
 	
