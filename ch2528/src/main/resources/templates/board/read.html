@@ -43,11 +43,13 @@
 	<form>
 		<table>
 			<h1>ajax 테스트</h1>
-			<div>
-				<p th:field = "*{replyWriter}">작성자</p>
-				<input id = "input" placeholder = "Please enter text" type = "text" class = "form-control">
-				<button id = "register" type = "button">submit</button>
-			</div>
+			<tr>
+				<td><span th:text = "${RW}">댓글 작성자</span></td>
+				<td><input id = "input" placeholder = "Please enter text" type = "text" class = "form-control" /></td>
+				<th:block sec:authorize="isAuthenticated()">
+					<td><button id = "register" type = "button">submit</button></td>
+				</th:block>
+			</tr>
 			<div id = "resultDiv">
 				<p th:if = "${message} != null" th:text = "${message}"></p>
 			</div>

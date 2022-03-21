@@ -91,8 +91,31 @@ public class BoardController {
 	}
 
 	@GetMapping("/read")
-	public void read(Long boardNo, @ModelAttribute("pgrq") PageRequestVO pageRequestVO, Model model) throws Exception
+	public void read(Long boardNo, @ModelAttribute("pgrq") PageRequestVO pageRequestVO, Model model, Authentication authentication) throws Exception
 	{
+		try
+		{
+			if(authentication.getPrincipal().equals(null))
+			{
+				model.addAttribute("RW", "손님");
+			}
+			else
+			{
+				CustomUser customUser = (CustomUser) authentication.getPrincipal();
+				Member member = customUser.getMember();
+				String replyWriter = member.getUserId();
+				
+				System.out.println(replyWriter);
+				
+				model.addAttribute("RW", replyWriter);
+			}
+		}
+		catch(Exception e)
+		{
+			
+		}
+		
+		
 		model.addAttribute(service.read(boardNo));
 	}
 
@@ -165,10 +188,8 @@ public class BoardController {
 		
 		String test = "댓글을 입력해주세요";
 		String replyWriter = member.getUserId();
-		
+	
 		System.out.println(replyWriter);
-		
-		model.addAttribute(replyWriter);
 		
 		return new ResponseEntity<String>(test, HttpStatus.OK);
 	}
